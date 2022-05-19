@@ -109,7 +109,7 @@ public final class VmMigrationWhenCpuMetricIsViolatedExample {
     /**
      * The file containing the Customer's SLA Contract in JSON format.
      */
-    private static final String CUSTOMER_SLA_CONTRACT = "CustomerSLA.json";
+    private static final String CUSTOMER_SLA_CONTRACT = "SlaCustomer0.json";
 
     private SlaContract contract;
     private List<Cloudlet> cloudletList;

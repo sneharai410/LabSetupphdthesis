@@ -1,54 +1,31 @@
-/*
- * CloudSim Plus: A modern, highly-extensible and easier-to-use Framework for
- * Modeling and Simulation of Cloud Computing Infrastructures and Services.
- * http://cloudsimplus.org
- *
- *     Copyright (C) 2015-2021 Universidade da Beira Interior (UBI, Portugal) and
- *     the Instituto Federal de Educação Ciência e Tecnologia do Tocantins (IFTO, Brazil).
- *
- *     This file is part of CloudSim Plus.
- *
- *     CloudSim Plus is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     CloudSim Plus is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
- *
- *     You should have received a copy of the GNU General Public License
- *     along with CloudSim Plus. If not, see <http://www.gnu.org/licenses/>.
- */
 package org.cloudsimplus.testbeds.sla.taskcompletiontime;
 
-import org.cloudbus.cloudsim.brokers.DatacenterBroker;
-import org.cloudbus.cloudsim.cloudlets.Cloudlet;
-import org.cloudbus.cloudsim.cloudlets.CloudletSimple;
-import org.cloudbus.cloudsim.datacenters.Datacenter;
-import org.cloudbus.cloudsim.distributions.ContinuousDistribution;
-import org.cloudbus.cloudsim.distributions.UniformDistr;
-import org.cloudbus.cloudsim.schedulers.cloudlet.CloudletSchedulerTimeShared;
-import org.cloudbus.cloudsim.utilizationmodels.UtilizationModelFull;
-import org.cloudbus.cloudsim.vms.Vm;
-import org.cloudbus.cloudsim.vms.VmCost;
-import org.cloudbus.cloudsim.vms.VmSimple;
-import org.cloudsimplus.listeners.EventInfo;
-import org.cloudsimplus.slametrics.SlaContract;
-import org.cloudsimplus.testbeds.ExperimentRunner;
+    import org.cloudbus.cloudsim.brokers.DatacenterBroker;
+    import org.cloudbus.cloudsim.cloudlets.Cloudlet;
+    import org.cloudbus.cloudsim.cloudlets.CloudletSimple;
+    import org.cloudbus.cloudsim.datacenters.Datacenter;
+    import org.cloudbus.cloudsim.distributions.ContinuousDistribution;
+    import org.cloudbus.cloudsim.distributions.UniformDistr;
+    import org.cloudbus.cloudsim.schedulers.cloudlet.CloudletSchedulerTimeShared;
+    import org.cloudbus.cloudsim.utilizationmodels.UtilizationModelFull;
+    import org.cloudbus.cloudsim.vms.Vm;
+    import org.cloudbus.cloudsim.vms.VmCost;
+    import org.cloudbus.cloudsim.vms.VmSimple;
+    import org.cloudsimplus.listeners.EventInfo;
+    import org.cloudsimplus.slametrics.SlaContract;
+    import org.cloudsimplus.testbeds.ExperimentRunner;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+    import java.util.ArrayList;
+    import java.util.Comparator;
+    import java.util.List;
 
-import static org.cloudsimplus.testbeds.sla.taskcompletiontime.CloudletTaskCompletionTimeWithoutMinimizationRunner.*;
+    import static org.cloudsimplus.testbeds.sla.taskcompletiontime.CloudletTaskCompletionTimeWithoutMinimizationRunner.*;
 
 /**
  *
  * @author raysaoliveira
  */
-class CloudletTaskCompletionTimeWithoutMinimizationExperiment extends AbstractCloudletTaskCompletionTimeExperiment {
+class TestExperiment extends AbstractCloudletTaskCompletionTimeExperiment {
     private static final int SCHEDULING_INTERVAL = 5;
 
     private final SlaContract contract;
@@ -60,15 +37,15 @@ class CloudletTaskCompletionTimeWithoutMinimizationExperiment extends AbstractCl
      */
     private static final String METRICS_FILE = "SlaMetrics.json";
 
-    private CloudletTaskCompletionTimeWithoutMinimizationExperiment(final long seed) {
+    private TestExperiment(final long seed) {
         this(0, null, seed);
     }
 
-    CloudletTaskCompletionTimeWithoutMinimizationExperiment(final int index, final ExperimentRunner runner) {
+    TestExperiment(final int index, final ExperimentRunner runner) {
         this(index, runner, -1);
     }
 
-    private CloudletTaskCompletionTimeWithoutMinimizationExperiment(final int index, final ExperimentRunner runner, final long seed) {
+    private TestExperiment(final int index, final ExperimentRunner runner, final long seed) {
         super(index, runner, seed);
         randCloudlet = new UniformDistr(getSeed());
         randVm = new UniformDistr(getSeed()+1);
@@ -86,9 +63,9 @@ class CloudletTaskCompletionTimeWithoutMinimizationExperiment extends AbstractCl
         broker0.getVmExecList().sort(Comparator.comparingLong(Vm::getId));
 
         broker0.getVmExecList().forEach(vm
-                -> System.out.printf("#### Time %.0f: Vm %d CPU usage: %.2f. SLA: %.2f.%n",
-                        eventInfo.getTime(), vm.getId(),
-                        vm.getCpuPercentUtilization(), getCustomerMaxCpuUtilization())
+            -> System.out.printf("#### Time %.0f: Vm %d CPU usage: %.2f. SLA: %.2f.%n",
+            eventInfo.getTime(), vm.getId(),
+            vm.getCpuPercentUtilization(), getCustomerMaxCpuUtilization())
         );
     }
 
@@ -123,19 +100,19 @@ class CloudletTaskCompletionTimeWithoutMinimizationExperiment extends AbstractCl
         final long length = CLOUDLET_LENGTHS[i];
 
         return new CloudletSimple(nextCloudletId(), length, 2)
-                .setFileSize(1024)
-                .setOutputSize(1024)
-                .setUtilizationModel(new UtilizationModelFull());
+            .setFileSize(1024)
+            .setOutputSize(1024)
+            .setUtilizationModel(new UtilizationModelFull());
     }
 
     @Override
     protected Datacenter createDatacenter(final int index) {
         final Datacenter dc = super.createDatacenter(index);
         dc.getCharacteristics()
-                .setCostPerSecond(3.0)
-                .setCostPerMem(0.05)
-                .setCostPerStorage(0.001)
-                .setCostPerBw(0.0);
+            .setCostPerSecond(3.0)
+            .setCostPerMem(0.05)
+            .setCostPerStorage(0.001)
+            .setCostPerBw(0.0);
         dc.setSchedulingInterval(SCHEDULING_INTERVAL);
         return dc;
     }
@@ -146,8 +123,8 @@ class CloudletTaskCompletionTimeWithoutMinimizationExperiment extends AbstractCl
         final double mean = super.getTaskCompletionTimeAverage();
 
         System.out.printf(
-                "\t\t%nTaskCompletionTime simulation: %.2f%n SLA's Task Completion Time: %.2f%n",
-                mean, getSlaMaxTaskCompletionTime());
+            "\t\t%nTaskCompletionTime simulation: %.2f%n SLA's Task Completion Time: %.2f%n",
+            mean, getSlaMaxTaskCompletionTime());
         return mean;
     }
 
@@ -157,17 +134,17 @@ class CloudletTaskCompletionTimeWithoutMinimizationExperiment extends AbstractCl
 
     double getPercentageOfCloudletsMeetingTaskCompletionTime() {
         DatacenterBroker broker = getBrokerList().stream()
-                .findFirst()
-                .orElse(DatacenterBroker.NULL);
+            .findFirst()
+            .orElse(DatacenterBroker.NULL);
 
         double totalOfcloudletSlaSatisfied = broker.getCloudletFinishedList().stream()
-                .map(c -> c.getFinishTime() - c.getLastDatacenterArrivalTime())
-                .filter(rt -> rt <= getSlaMaxTaskCompletionTime())
-                .count();
+            .map(c -> c.getFinishTime() - c.getLastDatacenterArrivalTime())
+            .filter(rt -> rt <= getSlaMaxTaskCompletionTime())
+            .count();
 
         System.out.printf(
-                "%n ** Percentage of cloudlets that complied with the SLA Agreement:  %.2f%%",
-                ((totalOfcloudletSlaSatisfied * 100) / broker.getCloudletFinishedList().size()));
+            "%n ** Percentage of cloudlets that complied with the SLA Agreement:  %.2f%%",
+            ((totalOfcloudletSlaSatisfied * 100) / broker.getCloudletFinishedList().size()));
         System.out.printf("%nTotal of cloudlets SLA satisfied: %.0f de %d", totalOfcloudletSlaSatisfied, broker.getCloudletFinishedList().size());
         return (totalOfcloudletSlaSatisfied * 100) / broker.getCloudletFinishedList().size();
     }
@@ -212,8 +189,8 @@ class CloudletTaskCompletionTimeWithoutMinimizationExperiment extends AbstractCl
      * @param args
      */
     public static void main(String[] args) {
-        CloudletTaskCompletionTimeWithoutMinimizationExperiment exp
-                = new CloudletTaskCompletionTimeWithoutMinimizationExperiment(1);
+        TestExperiment exp
+            = new TestExperiment(1);
         exp.setVerbose(true);
 //        exp.run();
         exp.getTaskCompletionTimeAverage();
