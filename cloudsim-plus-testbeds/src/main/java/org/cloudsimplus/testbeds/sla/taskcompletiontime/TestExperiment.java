@@ -21,10 +21,6 @@ package org.cloudsimplus.testbeds.sla.taskcompletiontime;
 
     import static org.cloudsimplus.testbeds.sla.taskcompletiontime.CloudletTaskCompletionTimeWithoutMinimizationRunner.*;
 
-/**
- *
- * @author raysaoliveira
- */
 class TestExperiment extends AbstractCloudletTaskCompletionTimeExperiment {
     private static final int SCHEDULING_INTERVAL = 5;
 
