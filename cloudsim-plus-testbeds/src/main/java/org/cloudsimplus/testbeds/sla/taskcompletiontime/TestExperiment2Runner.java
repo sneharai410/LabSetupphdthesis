@@ -42,9 +42,9 @@ public final class TestExperiment2Runner extends ExperimentRunner<TestExperiment
     }
 
     @Override
-    protected TestExperiment2 createExperimentInternal(int index) {
-        TestExperiment2 exp
-            = new TestExperiment2(index, this);
+    protected TestExperiment2Runner createExperimentInternal(int index) {
+        TestExperiment2Runner exp
+            = new TestExperiment2Runner(index, this);
 
         exp.setAfterExperimentFinish(this::afterExperimentFinish).setVerbose(experimentVerbose);
         return exp;
